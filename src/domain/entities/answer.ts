@@ -4,7 +4,6 @@ interface AnswerProps {
   content: string
   authorId: string
   questionId: string
-
 }
 
 export class Answer {
