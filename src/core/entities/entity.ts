@@ -5,7 +5,7 @@ export class Entity<P> {
 
   protected props: P
 
-  //com get nao pode ser alterado uma entidade(accessor), forma para apenas acessa-lo
+  // com get nao pode ser alterado uma entidade(accessor), forma para apenas acessa-lo
   get id() {
     return this._id
   }
