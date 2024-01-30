@@ -8,7 +8,7 @@ interface DefaultUseCaseResponse {
 }
 
 export class DefaultUseCase {
-  constructor(private answersrepository: AnswersRepository) { }
+  constructor(private defaultrepository: DefaultRepository) { }
 
   async execute({ }: DefaultUseCaseRequest): Promise<DefaultUseCaseResponse> { }
 }
