@@ -1,3 +1,4 @@
+import { Question } from '../../enterprise/entities/question';
 import { QuestionsRepository } from '../repositories/question-respository';
 
 interface DeleteQuestionseCaseRequest {
@@ -5,7 +6,9 @@ interface DeleteQuestionseCaseRequest {
   questionId: string
 }
 
-interface DeleteQuestionseCaseResponse { }
+interface DeleteQuestionseCaseResponse {
+  question: Question
+}
 
 export class DeleteQuestionseCase {
   constructor(private questionRepository: QuestionsRepository) { }
@@ -23,6 +26,6 @@ export class DeleteQuestionseCase {
 
     await this.questionRepository.delete(question)
 
-    return {}
+    return { question }
   }
 }
