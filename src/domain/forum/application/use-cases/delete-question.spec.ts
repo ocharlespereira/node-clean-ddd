@@ -18,7 +18,6 @@ describe('Delete Question', () => {
     }, new UniqueEntityID('question-1'))
 
     await inMemoryQuestionRepository.create(newQuestion)
-    console.log('inMemoryQuestionRepository :', inMemoryQuestionRepository.items);
 
     await sut.execute({
       authorId: 'author-1',
