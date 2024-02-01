@@ -18,7 +18,6 @@ describe('Delete Answer', () => {
     }, new UniqueEntityID('answer-1'))
 
     await inMemoryAnswerRepository.create(newAnswer)
-    console.log('inMemoryAnswerRepository :', inMemoryAnswerRepository.items);
 
     await sut.execute({
       authorId: 'author-1',
