@@ -4,6 +4,7 @@ import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answers-respository'
 import { InMemoryQuestionRepository } from 'test/repositories/in-memory-questions-respository'
 import { ChooseQuestionBestAnswerUseCase } from './chose-question-best-answer'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let inMemoryQuestionRepository: InMemoryQuestionRepository
 let inMemoryAnswerRepository: InMemoryAnswerRepository
@@ -13,7 +14,10 @@ describe('Choose Question Best Answer', () => {
   beforeEach(() => {
     inMemoryQuestionRepository = new InMemoryQuestionRepository()
     inMemoryAnswerRepository = new InMemoryAnswerRepository()
-    sut = new ChooseQuestionBestAnswerUseCase(inMemoryQuestionRepository, inMemoryAnswerRepository)
+    sut = new ChooseQuestionBestAnswerUseCase(
+      inMemoryQuestionRepository,
+      inMemoryAnswerRepository
+    )
   })
 
   it('should be able to choose question best answer', async () => {
@@ -25,7 +29,7 @@ describe('Choose Question Best Answer', () => {
 
     await sut.execute({
       answerId: answer.id.toString(),
-      authorId: question.authorId.toString()
+      authorId: question.authorId.toString(),
     })
 
     expect(inMemoryQuestionRepository.items[0].bestAnswerId).toEqual(answer.id)
@@ -33,19 +37,19 @@ describe('Choose Question Best Answer', () => {
 
   it('should be able to choose another user question best answer', async () => {
     const question = makeQuestion({
-      authorId: new UniqueEntityID('author-1')
+      authorId: new UniqueEntityID('author-1'),
     })
     const answer = makeAnswer({ questionId: question.id })
 
     await inMemoryQuestionRepository.create(question)
     await inMemoryAnswerRepository.create(answer)
 
-    expect(() => {
-      return sut.execute({
-        authorId: 'author-2',
-        answerId: answer.id.toString()
-      })
-    }).rejects.toBeInstanceOf(Error)
-  })
+    const result = await sut.execute({
+      authorId: 'author-2',
+      answerId: answer.id.toString(),
+    })
 
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
+  })
 })
