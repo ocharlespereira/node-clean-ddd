@@ -28,7 +28,7 @@ describe('Get Question by Slug', () => {
     expect(result.value.question.title).toEqual(newQuestion.title)
   })
 
-  it.skip('should be able to get not a question by slug', async () => {
+  it('should be able to get not a question by slug', async () => {
     const newQuestion = makeQuestion({
       slug: Slug.create('example-question'),
     })

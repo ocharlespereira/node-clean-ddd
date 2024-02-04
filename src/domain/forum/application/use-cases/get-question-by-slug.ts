@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/question-respository'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { QuestionNotFoundError } from './errors/question-not-found-error'
 
 interface GetQuestionBySlugUseCaseRequest {
   slug: string
@@ -23,8 +24,7 @@ export class GetQuestionBySlugUseCase {
     const question = await this.questionRepository.findBySlug(slug)
 
     if (!question) {
-      // return left(new QuestionNotFoundError())
-      return left(new NotAllowedError())
+      return left(new QuestionNotFoundError())
     }
 
     return right({ question })
