@@ -2,6 +2,7 @@ import { Either, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionAttachement } from '../../enterprise/entities/question-attachment'
+import { QuestionAttachementList } from '../../enterprise/entities/question-attachment-list'
 import { QuestionsRepository } from '../repositories/question-respository'
 
 interface CreateQuestionUseCaseRequest {
@@ -40,7 +41,7 @@ export class CreateQuestionUseCase {
       })
     })
 
-    question.attachments = questionAttachments // info vindo do Question.set.attachments para criar os Ids
+    question.attachments = new QuestionAttachementList(questionAttachments) // info vindo do Question.set.attachments para criar os Ids
 
     await this.questionrepository.create(question)
 
