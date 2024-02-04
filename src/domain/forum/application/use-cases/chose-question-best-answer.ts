@@ -1,46 +1,56 @@
+import { Either, left, right } from '@/core/either'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-respository'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/question-respository'
+import { AnswerNotFoundError } from './errors/answer-not-found-error'
+import { NotAllowedError } from './errors/not-allowed-error'
+import { QuestionNotFoundError } from './errors/question-not-found-error'
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
   authorId: string
   answerId: string
 }
 
-interface ChooseQuestionBestAnswerUseCaseResponse {
-  question: Question
-}
+type ChooseQuestionBestAnswerUseCaseResponse = Either<
+  AnswerNotFoundError | QuestionNotFoundError,
+  {
+    question: Question
+  }
+>
 
 export class ChooseQuestionBestAnswerUseCase {
   constructor(
     private questionRepository: QuestionsRepository,
     private answersrepository: AnswersRepository
-  ) { }
+  ) {}
 
   async execute({
-    authorId, answerId
+    authorId,
+    answerId,
   }: ChooseQuestionBestAnswerUseCaseRequest): Promise<ChooseQuestionBestAnswerUseCaseResponse> {
     const answer = await this.answersrepository.findById(answerId)
 
     if (!answer) {
-      throw new Error('Answer not found.')
+      return left(new AnswerNotFoundError())
     }
-    const question = await this.questionRepository.findById(answer.questionId.toString())
+    const question = await this.questionRepository.findById(
+      answer.questionId.toString()
+    )
 
     if (!question) {
-      throw new Error('Question not found.')
+      return left(new QuestionNotFoundError())
     }
 
     if (authorId !== question.authorId.toString()) {
-      throw new Error('Not allowed')
+      return left(new NotAllowedError())
     }
 
     question.bestAnswerId = answer.id
 
     await this.questionRepository.save(question)
 
-    return {
-      question
-    }
+    return right({
+      question,
+    })
   }
 }
