@@ -41,7 +41,8 @@ export class CreateQuestionUseCase {
       })
     })
 
-    question.attachments = new QuestionAttachementList(questionAttachments) // info vindo do Question.set.attachments para criar os Ids
+    // info vindo do Question.set.attachments para criar os Ids
+    question.attachments = new QuestionAttachementList(questionAttachments)
 
     await this.questionrepository.create(question)
 
