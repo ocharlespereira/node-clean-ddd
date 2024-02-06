@@ -1,11 +1,11 @@
 import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { QuestionNotFoundError } from '@/core/errors/errors/question-not-found-error'
 import { QuestionAttachement } from '../../enterprise/entities/question-attachment'
 import { QuestionAttachementList } from '../../enterprise/entities/question-attachment-list'
 import { QuestionAttachmentRepository } from '../repositories/question-attachments-respository'
 import { QuestionsRepository } from '../repositories/question-respository'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { QuestionNotFoundError } from './errors/question-not-found-error'
 
 interface EditQuestionseCaseRequest {
   authorId: string

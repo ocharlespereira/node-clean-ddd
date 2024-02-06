@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { AnswerNotFoundError } from '@/core/errors/errors/answer-not-found-error'
 import { makeAnswer } from 'test/factories/make-answer'
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answers-respository'
 import { DeleteAnswerUserCase } from './delete-answer'
-import { AnswerNotFoundError } from './errors/answer-not-found-error'
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswerRepository: InMemoryAnswerRepository

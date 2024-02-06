@@ -1,8 +1,8 @@
+import { QuestionNotFoundError } from '@/core/errors/errors/question-not-found-error'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionRepository } from 'test/repositories/in-memory-questions-respository'
 import { Slug } from '../../enterprise/entities/values-objects/slug'
-import { QuestionNotFoundError } from './errors/question-not-found-error'
 import { GetQuestionBySlugUseCase } from './get-question-by-slug'
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
