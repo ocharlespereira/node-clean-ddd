@@ -10,6 +10,7 @@
     "no-useless-constructor": "off",
     "accessor-pairs": "off",
     "no-unused-vars": "off",
+    "no-new": "off",
     "prettier/prettier": "off"
   }
 }
